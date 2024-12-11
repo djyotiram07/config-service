@@ -35,3 +35,16 @@ dependencyManagement {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+tasks.bootBuildImage {
+	imageName = project.name
+	environment = mapOf("BP_JVM_VERSION" to "21.*")
+
+	docker {
+		publishRegistry {
+			username = project.findProperty("registryUsername") as String?
+			password = project.findProperty("registryToken") as String?
+			url = project.findProperty("registryUrl") as String?
+		}
+	}
+}
